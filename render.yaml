@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: theshireofpaws-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      # Update this if your backend service ends up with a different
+      # Render URL (Render appends a suffix if the name is taken).
+      - key: VITE_API_URL
+        value: https://theshireofpaws-backend.onrender.com
+    routes:
+      # Needed because the app uses React Router's BrowserRouter:
+      # without this, refreshing on /dogs/:id or /admin/dashboard gives a 404.
+      - type: rewrite
+        source: /*
+        destination: /index.html

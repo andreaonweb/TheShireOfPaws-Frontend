@@ -14,14 +14,13 @@ const fileService = {
     return response.data;
   },
 
-  getFileUrl: (fileName) => {
-    if (!fileName) return null;
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-    return `${baseUrl}/api/files/download/${fileName}`;
+  getFileUrl: (photoUrl) => {
+    // photoUrl is already an absolute Cloudinary URL, returned as-is by the backend.
+    return photoUrl || null;
   },
 
-  deleteFile: async (fileName) => {
-    const response = await api.delete(`/api/files/${fileName}`);
+  deleteFile: async (fileUrl) => {
+    const response = await api.delete('/api/files', { params: { url: fileUrl } });
     return response.data;
   }
 };

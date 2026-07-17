@@ -161,8 +161,8 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
 
       if (selectedFile) {
         setUploadingImage(true);
-        const uploadResponse = await fileService.uploadFile(selectedFile); 
-        photoUrl = uploadResponse.fileName;
+        const uploadResponse = await fileService.uploadFile(selectedFile);
+        photoUrl = uploadResponse.fileDownloadUri;
       }
 
       const dogData = {
