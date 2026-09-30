@@ -89,7 +89,8 @@
   color: var(--color-gold);
 }
 
-.radioLabel input[type="radio"] {
+.radioLabel input[type="radio"],
+.radioLabel input[type="checkbox"] {
   width: 20px;
   height: 20px;
   cursor: pointer;

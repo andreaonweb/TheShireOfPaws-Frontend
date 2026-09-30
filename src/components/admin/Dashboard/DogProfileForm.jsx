@@ -23,6 +23,15 @@ const STATUS_OPTIONS = [
   { value: 'ADOPTED', label: 'Adopted' },
 ];
 
+const TRAIT_OPTIONS = [
+  { value: 'ACTIVE', label: 'Active' },
+  { value: 'CALM', label: 'Calm' },
+  { value: 'AFFECTIONATE', label: 'Affectionate' },
+  { value: 'GOOD_WITH_KIDS', label: 'Good with kids' },
+  { value: 'GOOD_WITH_DOGS', label: 'Good with other dogs' },
+  { value: 'HOUSE_TRAINED', label: 'House-trained' },
+];
+
 const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
   const isEditMode = !!dog;
 
@@ -33,7 +42,8 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
     age: '',
     size: '',
     photoUrl: '',
-    status: 'AVAILABLE'
+    status: 'AVAILABLE',
+    traits: []
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -52,7 +62,8 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
         age: dog.age?.toString() || '',
         size: dog.size || '',
         photoUrl: dog.photoUrl || '',
-        status: dog.status || 'AVAILABLE'
+        status: dog.status || 'AVAILABLE',
+        traits: dog.traits || []
       });
 
       if (dog.photoUrl) {
@@ -74,6 +85,16 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
         [name]: ''
       }));
     }
+  };
+
+  const handleTraitToggle = (e) => {
+    const { value, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      traits: checked
+        ? [...prev.traits, value]
+        : prev.traits.filter(trait => trait !== value)
+    }));
   };
 
   const handleFileChange = (e) => {
@@ -172,7 +193,8 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
         age: parseInt(formData.age),
         size: formData.size,
         photoUrl: photoUrl || null,
-        status: formData.status
+        status: formData.status,
+        traits: formData.traits
       };
 
       if (isEditMode) {
@@ -312,6 +334,27 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
         />
 
         <ErrorMessage error={errors.status} />
+      </fieldset>
+
+      <fieldset className={styles.fieldset}>
+        <legend className={styles.label}>
+          Personality
+        </legend>
+
+        <div className={styles.radioGroup}>
+          {TRAIT_OPTIONS.map((option) => (
+            <label key={option.value} className={styles.radioLabel}>
+              <input
+                type="checkbox"
+                name="traits"
+                value={option.value}
+                checked={formData.traits.includes(option.value)}
+                onChange={handleTraitToggle}
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </div>
       </fieldset>
 
       <div className={styles.field}>

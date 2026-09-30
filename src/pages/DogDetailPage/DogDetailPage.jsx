@@ -6,6 +6,15 @@ import dogService from '../../services/dogService';
 import fileService from '../../services/fileService';
 import styles from './DogDetailPage.module.css';
 
+const TRAIT_LABELS = {
+  ACTIVE: 'Active',
+  CALM: 'Calm',
+  AFFECTIONATE: 'Affectionate',
+  GOOD_WITH_KIDS: 'Good with kids',
+  GOOD_WITH_DOGS: 'Good with other dogs',
+  HOUSE_TRAINED: 'House-trained',
+};
+
 const DogDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -94,6 +103,16 @@ const DogDetailPage = () => {
           <div className={styles.storyBox}>
             <h2 className={styles.storyTitle}>About {dog.name}</h2>
             <p className={styles.storyText}>{dog.story || 'No story available.'}</p>
+
+            {dog.traits?.length > 0 && (
+              <ul className={styles.traits} aria-label="Personality">
+                {dog.traits.map((trait) => (
+                  <li key={trait} className={styles.trait}>
+                    {TRAIT_LABELS[trait] || trait}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div className={styles.details}>

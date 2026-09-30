@@ -102,6 +102,25 @@
   margin: 0 auto;
 }
 
+.traits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-lg) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trait {
+  padding: 6px 16px;
+  border: 2px solid var(--color-green);
+  border-radius: 999px;
+  color: var(--color-green);
+  font-size: 16px;
+  font-weight: var(--font-weight-medium);
+}
+
 .details {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
