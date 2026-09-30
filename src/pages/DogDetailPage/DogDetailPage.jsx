@@ -19,6 +19,7 @@ const DogDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [showAdoptionForm, setShowAdoptionForm] = useState(false);
+  const [activePhoto, setActivePhoto] = useState(0);
   
   const [dog, setDog] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -78,6 +79,10 @@ const DogDetailPage = () => {
     );
   }
 
+  const photos = [dog.photoUrl, ...(dog.extraPhotoUrls || [])]
+    .filter(Boolean)
+    .map(url => fileService.getFileUrl(url));
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
@@ -91,10 +96,27 @@ const DogDetailPage = () => {
         <div className={styles.mainCard}>
           <div className={styles.imageSection}>
             <img
-              src={dog.photoUrl ? fileService.getFileUrl(dog.photoUrl) : '/placeholder.jpg'}
+              src={photos[activePhoto] || '/placeholder.jpg'}
               alt={dog.name}
               className={styles.image}
             />
+            {photos.length > 1 && (
+              <div className={styles.thumbnails}>
+                {photos.map((url, index) => (
+                  <button
+                    key={url}
+                    type="button"
+                    className={`${styles.thumbnail} ${index === activePhoto ? styles.thumbnailActive : ''}`}
+                    onClick={() => setActivePhoto(index)}
+                    aria-label={`Show photo ${index + 1} of ${photos.length}`}
+                    aria-pressed={index === activePhoto}
+                  >
+                    {/* alt con texto: global.css oculta las img con alt vacío */}
+                    <img src={url} alt={`${dog.name}, photo ${index + 1}`} />
+                  </button>
+                ))}
+              </div>
+            )}
             {dog.status === 'AVAILABLE' && (
               <span className={styles.badge}>Available for Adoption</span>
             )}

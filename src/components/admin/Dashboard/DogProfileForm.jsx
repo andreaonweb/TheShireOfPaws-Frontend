@@ -32,6 +32,9 @@ const TRAIT_OPTIONS = [
   { value: 'HOUSE_TRAINED', label: 'House-trained' },
 ];
 
+const MAX_EXTRA_PHOTOS = 2;
+const MAX_PHOTO_SIZE = 10 * 1024 * 1024;
+
 const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
   const isEditMode = !!dog;
 
@@ -48,6 +51,8 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  // Each item: { url } for saved photos or { file } for new ones, plus a preview src
+  const [extraPhotos, setExtraPhotos] = useState([]);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -69,6 +74,10 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
       if (dog.photoUrl) {
         setPreviewUrl(fileService.getFileUrl(dog.photoUrl));
       }
+
+      setExtraPhotos(
+        (dog.extraPhotoUrls || []).map(url => ({ url, preview: fileService.getFileUrl(url) }))
+      );
     }
   }, [dog]);
 
@@ -133,6 +142,33 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
     }
   };
 
+  const handleExtraFileChange = (e) => {
+    const file = e.target.files[0];
+    // Allow picking the same file again after removing it
+    e.target.value = '';
+
+    if (!file || extraPhotos.length >= MAX_EXTRA_PHOTOS) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setErrors(prev => ({ ...prev, extraPhotos: 'Please select a valid image file' }));
+      return;
+    }
+
+    if (file.size > MAX_PHOTO_SIZE) {
+      setErrors(prev => ({ ...prev, extraPhotos: 'Image size must be less than 10MB' }));
+      return;
+    }
+
+    setExtraPhotos(prev => [...prev, { file, preview: URL.createObjectURL(file) }]);
+    setErrors(prev => ({ ...prev, extraPhotos: '' }));
+  };
+
+  const removeExtraPhoto = (index) => {
+    setExtraPhotos(prev => prev.filter((_, i) => i !== index));
+  };
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -186,6 +222,17 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
         photoUrl = uploadResponse.fileDownloadUri;
       }
 
+      const extraPhotoUrls = [];
+      for (const photo of extraPhotos) {
+        if (photo.file) {
+          setUploadingImage(true);
+          const uploadResponse = await fileService.uploadFile(photo.file);
+          extraPhotoUrls.push(uploadResponse.fileDownloadUri);
+        } else {
+          extraPhotoUrls.push(photo.url);
+        }
+      }
+
       const dogData = {
         name: formData.name.trim(),
         story: formData.story.trim() || null,
@@ -194,7 +241,8 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
         size: formData.size,
         photoUrl: photoUrl || null,
         status: formData.status,
-        traits: formData.traits
+        traits: formData.traits,
+        extraPhotoUrls
       };
 
       if (isEditMode) {
@@ -382,6 +430,52 @@ const DogProfileForm = ({ dog = null, onSuccess, onCancel }) => {
         )}
 
         <ErrorMessage error={errors.photo} />
+      </div>
+
+      <div className={styles.field}>
+        <span className={styles.label}>
+          Extra Photos <span className={styles.optional}>(up to {MAX_EXTRA_PHOTOS})</span>
+        </span>
+
+        {extraPhotos.length > 0 && (
+          <ul className={styles.extraPhotos}>
+            {extraPhotos.map((photo, index) => (
+              <li key={photo.preview} className={styles.extraPhoto}>
+                <img
+                  src={photo.preview}
+                  alt={`Extra photo ${index + 1}`}
+                  className={styles.extraPhotoImage}
+                />
+                <button
+                  type="button"
+                  className={styles.removePhoto}
+                  onClick={() => removeExtraPhoto(index)}
+                  disabled={isSubmitting || uploadingImage}
+                  aria-label={`Remove extra photo ${index + 1}`}
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {extraPhotos.length < MAX_EXTRA_PHOTOS && (
+          <div className={styles.photoUpload}>
+            <input
+              type="file"
+              id="extraPhoto"
+              accept="image/*"
+              onChange={handleExtraFileChange}
+              className={styles.fileInput}
+            />
+            <label htmlFor="extraPhoto" className={styles.fileLabel}>
+              Add another photo
+            </label>
+          </div>
+        )}
+
+        <ErrorMessage error={errors.extraPhotos} />
       </div>
 
       {errors.submit && (
