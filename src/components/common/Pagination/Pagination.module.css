@@ -1,0 +1,71 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+}
+
+.pages {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page,
+.arrow {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 var(--spacing-sm);
+  border: 2px solid var(--color-green);
+  border-radius: var(--radius-full);
+  background-color: var(--color-white);
+  color: var(--color-green);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.page:hover:not(.active),
+.arrow:hover:not(:disabled) {
+  background-color: var(--color-cream);
+}
+
+.active {
+  background-color: var(--color-green);
+  color: var(--color-white);
+  cursor: default;
+}
+
+.arrow:disabled {
+  border-color: var(--color-gray);
+  color: var(--color-gray-dark);
+  cursor: default;
+  opacity: 0.6;
+}
+
+.page:focus-visible,
+.arrow:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.gap {
+  min-width: 24px;
+  color: var(--color-brown);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .page,
+  .arrow {
+    min-width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}

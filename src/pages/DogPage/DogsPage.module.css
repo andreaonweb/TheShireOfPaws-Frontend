@@ -190,3 +190,13 @@
   padding: var(--spacing-xl);
   border: 2px solid var(--color-error);
 }
+.resultsInfo {
+  margin: var(--spacing-lg) 0 0;
+  color: var(--color-brown);
+  font-size: 18px;
+  text-align: center;
+}
+
+.grid {
+  scroll-margin-top: var(--spacing-xl);
+}

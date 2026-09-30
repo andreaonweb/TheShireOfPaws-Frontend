@@ -22,6 +22,20 @@ const dogService = {
     return response.data;
   },
 
+  // All pages of a filter (the backend allows up to 50 per page)
+  filterAllDogs: async (filters = {}) => {
+    const dogs = [];
+    let page = 0;
+    let last = false;
+    while (!last) {
+      const data = await dogService.filterDogs({ ...filters, page, pageSize: 50 });
+      dogs.push(...(data.content || []));
+      last = data.last ?? true;
+      page += 1;
+    }
+    return dogs;
+  },
+
   createDog: async (dogData) => {
     const response = await api.post('/api/dogs', dogData);
     return response.data;
