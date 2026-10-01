@@ -40,70 +40,6 @@
   margin-bottom: var(--spacing-xl);
 }
 
-.imageSection {
-  position: relative;
-  width: 100%;
-  background-color: var(--color-white);
-}
-
-.image {
-  width: 100%;
-  height: auto;
-  max-height: 500px;
-  object-fit: cover;
-  display: block;
-}
-
-.thumbnails {
-  display: flex;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background-color: var(--color-white);
-}
-
-.thumbnail {
-  width: 72px;
-  height: 72px;
-  padding: 0;
-  border: 3px solid transparent;
-  border-radius: 12px;
-  overflow: hidden;
-  background: none;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: opacity var(--transition-fast), border-color var(--transition-fast);
-}
-
-.thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.thumbnail:hover,
-.thumbnailActive {
-  opacity: 1;
-}
-
-.thumbnailActive {
-  border-color: var(--color-green);
-}
-
-.badge {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
-  background-color: var(--color-success);
-  color: var(--color-white);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  border-radius: var(--radius-full);
-  font-size: 16px;
-  font-weight: var(--font-weight-semibold);
-  box-shadow: var(--shadow-md);
-}
-
 .storyBox {
   padding: var(--spacing-xxl) var(--spacing-xl);
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
@@ -208,21 +144,6 @@
   padding: var(--spacing-xl) 0 var(--spacing-xxl) 0;
 }
 
-.adoptButton {
-  min-width: 350px;
-  padding: var(--spacing-lg) var(--spacing-xxl);
-  font-size: 18px;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.25);
-  transition: all var(--transition-base);
-  background: linear-gradient(135deg, var(--color-green) 0%, #45a049 100%);
-}
-
-.adoptButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.35);
-  background: linear-gradient(135deg, #45a049 0%, var(--color-green) 100%);
-}
-
 .formSection {
   background-color: var(--color-white);
   padding: var(--spacing-xxl);
@@ -239,14 +160,6 @@
   color: var(--color-green);
   margin-bottom: var(--spacing-sm);
   text-align: center;
-}
-
-.formSubtitle {
-  font-size: 18px;
-  color: var(--color-gray-dark);
-  text-align: center;
-  margin-bottom: var(--spacing-xl);
-  line-height: var(--line-height-relaxed);
 }
 
 .loading,
@@ -272,10 +185,6 @@
 
   .container {
     max-width: 100%;
-  }
-
-  .image {
-    max-height: 400px;
   }
 
   .storyBox {
@@ -309,21 +218,11 @@
     border-bottom: none;
   }
 
-  .adoptButton {
-    min-width: auto;
-    width: 90%;
-    font-size: 16px;
-  }
-
   .formSection {
     padding: var(--spacing-lg);
   }
 
   .formTitle {
     font-size: var(--font-size-h3);
-  }
-
-  .formSubtitle {
-    font-size: 16px;
   }
 }

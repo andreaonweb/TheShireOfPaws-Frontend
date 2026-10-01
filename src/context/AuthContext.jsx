@@ -1,73 +1,35 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import authService from '../services/authService';
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
+
+const readSession = () => ({
+  isAuthenticated: authService.isAuthenticated(),
+  adminEmail: authService.getAdminEmail(),
+});
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [adminEmail, setAdminEmail] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState(readSession);
 
   useEffect(() => {
-    const checkAuth = () => {
-      const authenticated = authService.isAuthenticated();
-      const email = authService.getAdminEmail();
-      
-      console.log('Checking auth...', { authenticated, email });
-      
-      setIsAuthenticated(authenticated);
-      setAdminEmail(email);
-      setLoading(false);
-    };
-
-    checkAuth();
-
-
-    const handleStorageChange = () => {
-      checkAuth();
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
+    const syncSession = () => setSession(readSession());
+    window.addEventListener('storage', syncSession);
+    return () => window.removeEventListener('storage', syncSession);
   }, []);
 
   const login = async (credentials) => {
-    try {
-      console.log(' Login called');
-      
-      const data = await authService.login(credentials);
-      
-      console.log('Login successful');
-      
-      setIsAuthenticated(true);
-      setAdminEmail(data.email);
-      
-      return data;
-    } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
-    }
+    const data = await authService.login(credentials);
+    setSession({ isAuthenticated: true, adminEmail: data.email });
+    return data;
   };
 
   const logout = () => {
     authService.logout();
-    setIsAuthenticated(false);
-    setAdminEmail(null);
-  };
-
-  const value = {
-    isAuthenticated,
-    adminEmail,
-    loading,
-    login,
-    logout
+    setSession({ isAuthenticated: false, adminEmail: null });
   };
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ ...session, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -76,8 +38,6 @@ export const AuthProvider = ({ children }) => {
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 };

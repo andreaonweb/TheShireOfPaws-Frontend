@@ -8,7 +8,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0; 
+  gap: 0;
   text-decoration: none;
   box-shadow: var(--shadow-sm);
   position: relative;
@@ -18,15 +18,14 @@
 .button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  gap: var(--spacing-xs); 
+  gap: var(--spacing-xs);
 }
-
 
 .button::after {
   content: '';
-  width: 0;  
+  width: 0;
   height: 24px;
-  background-image: url('/src/assets/Icons/paw-print.png');
+  background-image: url('/paw-print.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -37,7 +36,7 @@
 }
 
 .button:hover:not(:disabled)::after {
-  width: 24px;  
+  width: 24px;
   opacity: 1;
   transform: scale(1) rotate(0deg);
   filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.9));
@@ -149,7 +148,7 @@
 
 .disabled:hover {
   transform: none;
-  gap: 0;  
+  gap: 0;
 }
 
 .disabled::after {

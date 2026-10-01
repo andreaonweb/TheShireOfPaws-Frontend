@@ -4,30 +4,23 @@ import styles from './LoginModal.module.css';
 
 const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
 
+  const handleChange = (e) => setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-
     try {
-      console.log('Attempting login...'); 
-      
-      await login({ email, password });
-      
-      console.log('Login successful!'); 
-      console.log('Token saved:', localStorage.getItem('token')); 
-      
+      await login(credentials);
       onLoginSuccess();
       onClose();
     } catch (err) {
-      console.error('Login error:', err);
       setError(typeof err === 'string' ? err : 'Invalid email or password');
     } finally {
       setIsLoading(false);
@@ -35,9 +28,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   };
 
   const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    if (e.target === e.currentTarget) onClose();
   };
 
   return (
@@ -45,11 +36,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
       <div className={styles.modal}>
         <div className={styles.header}>
           <h2 className={styles.title}>Admin Login</h2>
-          <button 
-            onClick={onClose}
-            className={styles.closeButton}
-            aria-label="Close modal"
-          >
+          <button onClick={onClose} className={styles.closeButton} aria-label="Close modal">
             ✕
           </button>
         </div>
@@ -62,8 +49,9 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={credentials.email}
+              onChange={handleChange}
               className={styles.input}
               placeholder="admin@theshireofpaws.com"
               required
@@ -77,25 +65,18 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={credentials.password}
+              onChange={handleChange}
               className={styles.input}
               placeholder="Enter your password"
               required
             />
           </div>
 
-          {error && (
-            <div className={styles.error}>
-              {error}
-            </div>
-          )}
+          {error && <div className={styles.error}>{error}</div>}
 
-          <button 
-            type="submit" 
-            className={styles.submitButton}
-            disabled={isLoading}
-          >
+          <button type="submit" className={styles.submitButton} disabled={isLoading}>
             {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>

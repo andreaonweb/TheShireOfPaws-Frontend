@@ -1,0 +1,115 @@
+.tableWrapper {
+  overflow-x: auto;
+  margin-top: var(--spacing-lg);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 18px;
+}
+
+.table thead {
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.table th {
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-gray-light);
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-cream);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.emptyMessage {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-gray-dark);
+  font-style: italic;
+  font-size: var(--font-size-small);
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.iconButton,
+.approve,
+.deny {
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconButton {
+  background: none;
+  border: 2px solid var(--color-gray);
+}
+
+.iconButton:hover {
+  border-color: var(--color-green);
+  transform: scale(1.1);
+}
+
+.approve,
+.deny {
+  border: none;
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+}
+
+.approve {
+  background-color: var(--color-success);
+}
+
+.approve:hover {
+  background-color: #2e7d32;
+  transform: scale(1.1);
+}
+
+.deny {
+  background-color: var(--color-error);
+}
+
+.deny:hover {
+  background-color: #c62828;
+  transform: scale(1.1);
+}
+
+@media (max-width: 1024px) {
+  .table {
+    font-size: 16px;
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 768px) {
+  .table {
+    font-size: 14px;
+  }
+}

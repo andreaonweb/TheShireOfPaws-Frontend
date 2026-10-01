@@ -3,7 +3,7 @@
   color: var(--color-white);
   padding: var(--spacing-xl) 0;
   margin-top: auto;
-  position: relative;  
+  position: relative;
 }
 
 .container {
@@ -109,17 +109,17 @@
   position: absolute;
   bottom: var(--spacing-md);
   right: var(--spacing-md);
-  
+
   background: none;
   border: 2px solid var(--color-white);
   color: var(--color-white);
-  padding: var(--spacing-xs) var(--spacing-md);  
-  font-size: 16px;  
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 16px;
   font-weight: var(--font-weight-medium);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--transition-fast);
-  z-index: 10;  
+  z-index: 10;
 }
 
 .adminLink:hover {
@@ -155,7 +155,7 @@
 @media (max-width: 768px) {
   .footer {
     padding: var(--spacing-lg) 0;
-    padding-bottom: calc(var(--spacing-lg) + 60px);  
+    padding-bottom: calc(var(--spacing-lg) + 60px);
   }
 
   .title {

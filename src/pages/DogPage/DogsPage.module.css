@@ -1,4 +1,3 @@
-
 .page {
   background-color: var(--color-cream);
   min-height: 100vh;
@@ -14,7 +13,6 @@
   position: relative;
   z-index: 2;
 }
-
 
 .header {
   text-align: center;
@@ -37,7 +35,6 @@
   color: var(--color-green);
   font-weight: var(--font-weight-bold);
 }
-
 
 .title::before,
 .title::after {
@@ -70,7 +67,6 @@
   }
 }
 
-
 .header::after {
   content: '';
   position: absolute;
@@ -82,7 +78,6 @@
   background-color: var(--color-gold);
   border-radius: 2px;
 }
-
 
 .page::before,
 .page::after {
@@ -115,8 +110,6 @@
   }
 }
 
-
-
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -131,8 +124,6 @@
   color: var(--color-gray-dark);
   padding: var(--spacing-xxl);
 }
-
-
 
 @media (max-width: 1024px) {
   .grid {

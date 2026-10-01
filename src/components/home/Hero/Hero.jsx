@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/button';
-import styles from './Hero.module.css';
-
 import dog1 from '../../../assets/Images/HEADER-1.jpg';
 import dog2 from '../../../assets/Images/HEADER-2.jpg';
 import dog3 from '../../../assets/Images/HEADER-3.jpg';
 import dog4 from '../../../assets/Images/HEASDER-4.jpg';
 import dog5 from '../../../assets/Images/HEADER-5.jpg';
+import styles from './Hero.module.css';
+
+const DOG_IMAGES = [dog1, dog2, dog3, dog4, dog5];
 
 const Hero = () => {
   const navigate = useNavigate();
-  const dogImages = [dog1, dog2, dog3, dog4, dog5];
 
   return (
     <section className={styles.hero}>
@@ -19,27 +19,17 @@ const Hero = () => {
 
         <div className={styles.content}>
           <h1 className={styles.title}>
-            Where every journey ends in love.<br />
+            Where every journey ends in love.
+            <br />
             And every paw finds a home.
           </h1>
-          
-          <Button 
-            variant="primary" 
-            size="medium"
-            onClick={() => navigate('/dogs')}
-          >
-            ADOPT, DON'T SHOP
-          </Button>
+          <Button onClick={() => navigate('/dogs')}>ADOPT, DON'T SHOP</Button>
         </div>
 
         <div className={styles.photoGrid}>
-          {dogImages.map((imgUrl, index) => (
-            <div key={index} className={styles.photoCard}>
-              <img 
-                src={imgUrl}
-                alt={`Adorable dog ${index + 1}`}
-                className={styles.photo}
-              />
+          {DOG_IMAGES.map((src, index) => (
+            <div key={src} className={styles.photoCard}>
+              <img src={src} alt={`Adorable dog ${index + 1}`} className={styles.photo} />
             </div>
           ))}
         </div>

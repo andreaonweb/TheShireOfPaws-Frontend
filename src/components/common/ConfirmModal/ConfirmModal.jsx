@@ -1,14 +1,14 @@
 import styles from './ConfirmModal.module.css';
 
-const ConfirmModal = ({ 
-  isOpen, 
-  title, 
-  message, 
+const ConfirmModal = ({
+  isOpen,
+  title,
+  message,
   confirmText = 'Confirm',
   cancelText = 'Cancel',
-  onConfirm, 
+  onConfirm,
   onCancel,
-  variant = 'danger' 
+  variant = 'danger',
 }) => {
   if (!isOpen) return null;
 
@@ -19,30 +19,20 @@ const ConfirmModal = ({
   return (
     <div className={styles.backdrop} onClick={handleBackdropClick}>
       <div className={styles.modal}>
-        
         <div className={styles.header}>
           <h3 className={styles.title}>{title}</h3>
         </div>
-
         <div className={styles.body}>
           <p className={styles.message}>{message}</p>
         </div>
-
         <div className={styles.footer}>
-          <button 
-            className={styles.cancelButton}
-            onClick={onCancel}
-          >
+          <button className={styles.cancelButton} onClick={onCancel}>
             {cancelText}
           </button>
-          <button 
-            className={`${styles.confirmButton} ${styles[variant]}`}
-            onClick={onConfirm}
-          >
+          <button className={`${styles.confirmButton} ${styles[variant]}`} onClick={onConfirm}>
             {confirmText}
           </button>
         </div>
-        
       </div>
     </div>
   );

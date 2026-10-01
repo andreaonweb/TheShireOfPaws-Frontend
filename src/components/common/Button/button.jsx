@@ -1,31 +1,27 @@
 import styles from './button.module.css';
 
-const Button = ({ 
-  children, 
-  variant = 'primary', 
+const Button = ({
+  children,
+  variant = 'primary',
   size = 'medium',
-  onClick, 
   type = 'button',
-  disabled = false,
   fullWidth = false,
-  ariaLabel
+  className,
+  ...props
 }) => {
   const classNames = [
     styles.button,
     styles[variant],
     styles[size],
     fullWidth && styles.fullWidth,
-    disabled && styles.disabled
-  ].filter(Boolean).join(' ');
+    props.disabled && styles.disabled,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <button
-      type={type}
-      className={classNames}
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={ariaLabel}
-    >
+    <button type={type} className={classNames} {...props}>
       {children}
     </button>
   );

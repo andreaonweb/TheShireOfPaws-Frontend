@@ -1,61 +1,33 @@
-import { useState, useEffect } from 'react';
-import statsService from '../../../services/statsService';
+import useFetch from '../../../hooks/useFetch';
+import dogService from '../../../services/dogService';
 import styles from './Stats.module.css';
 
+const STAT_ITEMS = [
+  { key: 'rescued', label: 'Rescued Dogs' },
+  { key: 'adopted', label: 'Adopted Dogs' },
+  { key: 'available', label: 'Dogs Available' },
+];
+
+const EMPTY_STATS = { rescued: 0, adopted: 0, available: 0 };
+
 const Stats = () => {
-  const [stats, setStats] = useState({
-    rescued: 0,
-    adopted: 0,
-    available: 0
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const data = await statsService.getStats();
-        setStats(data);
-      } catch (error) {
-        console.error('Error loading stats:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStats();
-  }, []);
-
-  if (loading) {
-    return (
-      <section className={styles.stats}>
-        <div className={styles.container}>
-          <div className={styles.loading}>Loading stats...</div>
-        </div>
-      </section>
-    );
-  }
+  const { data: stats, loading } = useFetch(dogService.getStats, { initialData: EMPTY_STATS });
 
   return (
     <section className={styles.stats}>
       <div className={styles.container}>
-        <div className={styles.grid}>
-          
-          <div className={styles.statCard}>
-            <div className={styles.number}>{stats.rescued}</div>
-            <div className={styles.label}>Rescued Dogs</div>
+        {loading ? (
+          <div className={styles.loading}>Loading stats...</div>
+        ) : (
+          <div className={styles.grid}>
+            {STAT_ITEMS.map(({ key, label }) => (
+              <div key={key} className={styles.statCard}>
+                <div className={styles.number}>{stats[key]}</div>
+                <div className={styles.label}>{label}</div>
+              </div>
+            ))}
           </div>
-
-          <div className={styles.statCard}>
-            <div className={styles.number}>{stats.adopted}</div>
-            <div className={styles.label}>Adopted Dogs</div>
-          </div>
-
-          <div className={styles.statCard}>
-            <div className={styles.number}>{stats.available}</div>
-            <div className={styles.label}>Dogs Available</div>
-          </div>
-
-        </div>
+        )}
       </div>
     </section>
   );

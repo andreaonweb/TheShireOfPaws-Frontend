@@ -31,7 +31,6 @@
   border-radius: 2px;
 }
 
-
 .content {
   display: flex;
   flex-direction: column;
@@ -55,7 +54,6 @@
   line-height: 1;
   margin-right: 8px;
 }
-
 
 @media (max-width: 768px) {
   .about {

@@ -1,37 +1,32 @@
 import { Link } from 'react-router-dom';
-import fileService from '../../../services/fileService';
+import { PLACEHOLDER_IMG } from '../../../constants/dog';
 import styles from './DogCard.module.css';
 
-const DogCard = ({ dog, index }) => {
-  const colors = ['gold', 'darkGreen', 'brown', 'green'];
-  const colorClass = colors[index % colors.length];
-  
-  const imageUrl = dog.photoUrl 
-    ? fileService.getFileUrl(dog.photoUrl) 
-    : '/images/placeholder-dog.jpg';
+const CARD_COLORS = ['gold', 'darkGreen', 'brown', 'green'];
 
-  return (
-    <Link to={`/dogs/${dog.id}`} className={`${styles.card} ${styles[colorClass]}`}>
-      <div className={styles.content}>
-        <h3 className={styles.name}>{dog.name}</h3>
-        
-        <button className={styles.button}>
-          MORE ABOUT ME
-        </button>
-      </div>
-
-      <div className={styles.imageWrapper}>
-        <img 
-          src={imageUrl}
-          alt={dog.name}
-          className={styles.image}
-          onError={(e) => {
-            e.target.src = '/images/placeholder-dog.jpg';
-          }}
-        />
-      </div>
-    </Link>
-  );
+const showPlaceholder = (e) => {
+  if (!e.currentTarget.src.endsWith(PLACEHOLDER_IMG)) e.currentTarget.src = PLACEHOLDER_IMG;
 };
+
+const DogCard = ({ dog, index }) => (
+  <Link
+    to={`/dogs/${dog.id}`}
+    className={`${styles.card} ${styles[CARD_COLORS[index % CARD_COLORS.length]]}`}
+  >
+    <div className={styles.content}>
+      <h3 className={styles.name}>{dog.name}</h3>
+      <span className={styles.button}>MORE ABOUT ME</span>
+    </div>
+
+    <div className={styles.imageWrapper}>
+      <img
+        src={dog.photoUrl || PLACEHOLDER_IMG}
+        alt={dog.name}
+        className={styles.image}
+        onError={showPlaceholder}
+      />
+    </div>
+  </Link>
+);
 
 export default DogCard;

@@ -16,7 +16,6 @@
   align-items: center;
 }
 
-
 .logo a {
   display: flex;
   align-items: center;
@@ -37,7 +36,6 @@
   line-height: 1.2;
 }
 
-
 .menu {
   display: flex;
   gap: var(--spacing-lg);
@@ -52,15 +50,15 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
-  position: relative; 
-  display: inline-flex; 
+  position: relative;
+  display: inline-flex;
 }
 
 .menuLink::after {
   content: '';
   width: 20px;
   height: 20px;
-  background-image: url('/src/assets/Icons/paw-print.png');
+  background-image: url('/paw-print.png');
   background-size: contain;
   background-repeat: no-repeat;
   opacity: 0;
@@ -83,7 +81,6 @@
   outline-offset: 2px;
 }
 
-
 .menuButton {
   display: none;
   flex-direction: column;
@@ -105,7 +102,6 @@
 .menuButton:hover .menuIcon {
   background-color: var(--color-gold);
 }
-
 
 .mobileMenu {
   display: none;
@@ -150,7 +146,6 @@
   color: var(--color-gold);
 }
 
-
 @media (max-width: 768px) {
   .menu {
     display: none;
@@ -173,4 +168,3 @@
     font-size: 18px;
   }
 }
-

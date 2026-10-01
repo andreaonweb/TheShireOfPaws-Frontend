@@ -29,11 +29,6 @@
   box-shadow: var(--shadow-lg);
 }
 
-.icon {
-  font-size: 48px;
-  margin-bottom: var(--spacing-md);
-}
-
 .number {
   font-size: 64px;
   font-weight: var(--font-weight-bold);
@@ -55,15 +50,10 @@
   font-size: var(--font-size-small);
 }
 
-
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
-  }
-
-  .icon {
-    font-size: 36px;
   }
 
   .number {
