@@ -99,10 +99,17 @@
 
 .active {
   color: var(--color-green);
-  background-image: linear-gradient(var(--color-gold), var(--color-gold));
-  background-size: calc(100% - 2 * var(--spacing-sm)) 3px;
-  background-position: var(--spacing-sm) 100%;
-  background-repeat: no-repeat;
+}
+
+.menuLink.active::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--spacing-sm);
+  /* 20px: space reserved by the hover paw (::after), so the line centers on the word */
+  right: calc(var(--spacing-sm) + 20px);
+  height: 3px;
+  background: linear-gradient(var(--color-gold), var(--color-gold)) center / 60% 100% no-repeat;
 }
 
 .menuLink:focus-visible {
@@ -188,8 +195,10 @@
 }
 
 .mobileMenuLink.active {
+  background-image: linear-gradient(var(--color-gold), var(--color-gold));
   background-position: var(--spacing-md) calc(100% - 12px);
   background-size: 40px 3px;
+  background-repeat: no-repeat;
 }
 
 @media (max-width: 768px) {
