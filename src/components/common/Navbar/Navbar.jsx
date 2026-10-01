@@ -1,46 +1,56 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { NAV_LINKS } from '../../../constants/navigation';
 import logo from '../../../assets/Icons/dogstadistic.png';
 import styles from './Navbar.module.css';
 
-const LINKS = [
-  { to: '/', label: 'Home' },
-  { to: '/dogs', label: 'Adopt a Dog' },
-];
+const linkClass = (baseClass) => ({ isActive }) =>
+  isActive ? `${baseClass} ${styles.active}` : baseClass;
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const closeMenu = () => setIsMenuOpen(false);
+  const { pathname } = useLocation();
+  // Storing the path the menu was opened on closes it automatically after navigation
+  const [openOnPath, setOpenOnPath] = useState(null);
+  const isMenuOpen = openOnPath === pathname;
+  const closeMenu = () => setOpenOnPath(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return undefined;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setOpenOnPath(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMenuOpen]);
 
   return (
     <nav className={styles.navbar} aria-label="Main navigation">
       <div className={styles.container}>
-        <div className={styles.logo}>
-          <Link to="/" aria-label="The Shire Of Paws - Home">
-            <img src={logo} alt="The Shire Of Paws Logo" className={styles.logoImage} />
-            <span className={styles.logoText}>
-              The Shire
-              <br />
-              of Paws
-            </span>
-          </Link>
-        </div>
+        <Link to="/" className={styles.logo} aria-label="The Shire Of Paws - Home">
+          <img src={logo} alt="The Shire Of Paws logo" className={styles.logoImage} />
+          <span className={styles.logoText}>
+            The Shire
+            <br />
+            of Paws
+          </span>
+        </Link>
 
         <ul className={styles.menu}>
-          {LINKS.map(({ to, label }) => (
+          {NAV_LINKS.map(({ to, label }) => (
             <li key={to}>
-              <Link to={to} className={styles.menuLink}>
+              <NavLink to={to} end className={linkClass(styles.menuLink)}>
                 {label}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>
 
         <button
           className={styles.menuButton}
-          onClick={() => setIsMenuOpen((open) => !open)}
+          onClick={() => setOpenOnPath(isMenuOpen ? null : pathname)}
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
         >
           <span className={styles.menuIcon}></span>
           <span className={styles.menuIcon}></span>
@@ -49,13 +59,13 @@ const Navbar = () => {
       </div>
 
       {isMenuOpen && (
-        <div className={styles.mobileMenu}>
+        <div id="mobile-menu" className={styles.mobileMenu}>
           <ul className={styles.mobileMenuList}>
-            {LINKS.map(({ to, label }) => (
+            {NAV_LINKS.map(({ to, label }) => (
               <li key={to}>
-                <Link to={to} className={styles.mobileMenuLink} onClick={closeMenu}>
+                <NavLink to={to} end className={linkClass(styles.mobileMenuLink)} onClick={closeMenu}>
                   {label}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>

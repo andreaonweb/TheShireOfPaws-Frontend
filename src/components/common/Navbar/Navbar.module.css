@@ -16,7 +16,7 @@
   align-items: center;
 }
 
-.logo a {
+.logo {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -24,16 +24,16 @@
 }
 
 .logoImage {
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
 }
 
 .logoText {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-brown);
-  line-height: 1.2;
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-green);
+  line-height: 1.1;
 }
 
 .menu {
@@ -76,6 +76,14 @@
   background-color: rgba(184, 134, 11, 0.1);
 }
 
+.active {
+  color: var(--color-green);
+  background-image: linear-gradient(var(--color-gold), var(--color-gold));
+  background-size: calc(100% - 2 * var(--spacing-sm)) 3px;
+  background-position: var(--spacing-sm) 100%;
+  background-repeat: no-repeat;
+}
+
 .menuLink:focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 2px;
@@ -101,6 +109,18 @@
 
 .menuButton:hover .menuIcon {
   background-color: var(--color-gold);
+}
+
+.menuButton[aria-expanded='true'] .menuIcon:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.menuButton[aria-expanded='true'] .menuIcon:nth-child(2) {
+  opacity: 0;
+}
+
+.menuButton[aria-expanded='true'] .menuIcon:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 .mobileMenu {
@@ -146,6 +166,11 @@
   color: var(--color-gold);
 }
 
+.mobileMenuLink.active {
+  background-position: var(--spacing-md) calc(100% - 12px);
+  background-size: 40px 3px;
+}
+
 @media (max-width: 768px) {
   .menu {
     display: none;
@@ -160,11 +185,11 @@
   }
 
   .logoImage {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 
   .logoText {
-    font-size: 18px;
+    font-size: 20px;
   }
 }
