@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { NAV_LINKS } from '../../../constants/navigation';
+import useScrolled from '../../../hooks/useScrolled';
 import logo from '../../../assets/Icons/dogstadistic.png';
 import styles from './Navbar.module.css';
+
+const COMPACT_AFTER_PX = 40;
 
 const linkClass = (baseClass) => ({ isActive }) =>
   isActive ? `${baseClass} ${styles.active}` : baseClass;
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const isCompact = useScrolled(COMPACT_AFTER_PX);
   // Storing the path the menu was opened on closes it automatically after navigation
   const [openOnPath, setOpenOnPath] = useState(null);
   const isMenuOpen = openOnPath === pathname;
@@ -24,7 +28,7 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   return (
-    <nav className={styles.navbar} aria-label="Main navigation">
+    <nav className={`${styles.navbar} ${isCompact ? styles.compact : ''}`} aria-label="Main navigation">
       <div className={styles.container}>
         <Link to="/" className={styles.logo} aria-label="The Shire Of Paws - Home">
           <img src={logo} alt="The Shire Of Paws logo" className={styles.logoImage} />

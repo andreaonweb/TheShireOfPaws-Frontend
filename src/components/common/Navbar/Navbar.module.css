@@ -5,6 +5,12 @@
   top: 0;
   z-index: var(--z-sticky);
   box-shadow: var(--shadow-sm);
+  transition: padding 0.25s ease, box-shadow 0.25s ease;
+}
+
+.compact {
+  padding: var(--spacing-xs) 0;
+  box-shadow: var(--shadow-md);
 }
 
 .container {
@@ -27,6 +33,7 @@
   width: 56px;
   height: 56px;
   object-fit: contain;
+  transition: width 0.25s ease, height 0.25s ease;
 }
 
 .logoText {
@@ -34,6 +41,16 @@
   font-weight: var(--font-weight-bold);
   color: var(--color-green);
   line-height: 1.1;
+  transition: font-size 0.25s ease;
+}
+
+.compact .logoImage {
+  width: 40px;
+  height: 40px;
+}
+
+.compact .logoText {
+  font-size: 20px;
 }
 
 .menu {
@@ -191,5 +208,14 @@
 
   .logoText {
     font-size: 20px;
+  }
+
+  .compact .logoImage {
+    width: 34px;
+    height: 34px;
+  }
+
+  .compact .logoText {
+    font-size: 17px;
   }
 }
