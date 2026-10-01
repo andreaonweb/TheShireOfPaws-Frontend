@@ -14,8 +14,8 @@ import RequestDetailsModal from '../../components/admin/Dashboard/RequestDetails
 import { REQUEST_ACTIONS } from '../../components/admin/Dashboard/requestActions';
 import styles from './AdminDashboardPage.module.css';
 
-const fetchDogs = () => dogService.getAllDogs().then((page) => page.content ?? []);
-const fetchRequests = () => adoptionRequestService.getAllRequests().then((page) => page.content ?? []);
+const fetchDogs = () => dogService.filterAllDogs();
+const fetchRequests = () => adoptionRequestService.getAllRequests();
 
 const AdminDashboardPage = () => {
   const navigate = useNavigate();

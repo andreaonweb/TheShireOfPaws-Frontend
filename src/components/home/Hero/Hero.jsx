@@ -3,7 +3,7 @@ import Button from '../../common/Button/button';
 import dog1 from '../../../assets/Images/HEADER-1.jpg';
 import dog2 from '../../../assets/Images/HEADER-2.jpg';
 import dog3 from '../../../assets/Images/HEADER-3.jpg';
-import dog4 from '../../../assets/Images/HEASDER-4.jpg';
+import dog4 from '../../../assets/Images/HEADER-4.jpg';
 import dog5 from '../../../assets/Images/HEADER-5.jpg';
 import styles from './Hero.module.css';
 

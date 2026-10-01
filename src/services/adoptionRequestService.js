@@ -1,8 +1,11 @@
-import api, { unwrap } from './api';
+import api, { fetchAllPages, unwrap } from './api';
 
 const adoptionRequestService = {
-  getAllRequests: ({ page = 0, size = 15, sortBy = 'createdAt', sortDir = 'DESC' } = {}) =>
+  getRequestsPage: ({ page = 0, size = 15, sortBy = 'createdAt', sortDir = 'DESC' } = {}) =>
     unwrap(api.get('/api/adoption-requests', { params: { page, size, sortBy, sortDir } })),
+
+  getAllRequests: () =>
+    fetchAllPages((page, size) => adoptionRequestService.getRequestsPage({ page, size })),
 
   getRequestById: (id) => unwrap(api.get(`/api/adoption-requests/${id}`)),
 

@@ -25,6 +25,18 @@ api.interceptors.response.use(
 
 export const unwrap = (request) => request.then((response) => response.data);
 
+export const MAX_PAGE_SIZE = 50;
+
+export const fetchAllPages = async (fetchPage) => {
+  const items = [];
+  for (let page = 0, last = false; !last; page++) {
+    const data = await fetchPage(page, MAX_PAGE_SIZE);
+    items.push(...(data.content ?? []));
+    last = data.last ?? true;
+  }
+  return items;
+};
+
 export const getErrorMessage = (error, fallback = 'Something went wrong. Please try again.') =>
   error?.response?.data?.message || fallback;
 
