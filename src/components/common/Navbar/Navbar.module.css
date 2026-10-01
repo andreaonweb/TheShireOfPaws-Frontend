@@ -53,6 +53,10 @@
   font-size: 20px;
 }
 
+.compact .menuLink {
+  font-size: 20px;
+}
+
 .menu {
   display: flex;
   gap: var(--spacing-lg);
